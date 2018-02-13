@@ -197,7 +197,7 @@ The testing harness looks like this:
 
 ```
 
-class SFCalendricalTester {
+class SFTestHarness {
 public:
 };
 
