@@ -27,6 +27,26 @@ class Timezone;
 class Interval;
 ```
 
+Note that you are free to create any other classes you need in order to support your solution. Presumably, if you add other classes it is to provide functionality to your solution that you have deemed "worthy" to be part of your solution. Totally up to you. Our testing framework will only interact with the five classes we have outlined above.
+
+### About Your Classes
+asdf
+
+#### The Date Class 
+asdf
+
+#### The Time Class 
+asdf
+
+#### The DateTime Class 
+asdf
+
+#### The Timezone Class 
+asdf
+
+#### The Interval Class 
+asdf
+
 ### The Testing Interface
 
 In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. Once you turn in your work, Vlad-the-compiler will use your testing harness to perform operations that we can use to grade your work.  
