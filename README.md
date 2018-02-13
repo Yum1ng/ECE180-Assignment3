@@ -196,11 +196,15 @@ In our last assignment, we provided you with a specific class interface. In this
 The testing harness looks like this:
 
 ```
-
 class SFTestHarness {
 public:
+  static int runTests();
+  static int runDateTests();
+  static int runTimeTests();
+  static int runDateTimeTests();
+  static int runIntervalTests();
+  static int runTimezoneTests();
 };
-
 ```
 
 ### Submitting Your Assignment
