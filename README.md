@@ -41,21 +41,46 @@ You are free to implement your `Date` class any way you see fit. It must, howeve
 - You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
 - You must provide a conversion operator from your `Date` class to a const char*. 
 
+Your `Date` class must also support basic operations to change the date incrementally, as well as methods to get/set various properties of the date. Here's a summary of your interface:
+
 ```
+
 class Date {
   Date();                             //default to today, in GMT timezone
-  Date(const char *aDateTimeString);  //must parse the given (well-formed) string  
+  Date(const char *aDateTimeString);  //must parse the given (well-formed) string  -- (more details below)
   Date(int month, int day, int year); //build date from individual parts
   Date(const Date &aCopy);  
   Date(const DateTime &aCopy);
 
+  operator ++(); //advance by one day
+  operator --(); //back up by one day...
+
+  Date& adjustByDays(int n) -- to add or subtract N days from the given date
+  Date& adjustByWeeks(int n) -- to add or subtract N weeks from the given date
+  Date& adjustByMonths(int n) -- to add or subtract N months from the given date
+  Date& adjustByYears(int n) -- to add or subtract N years from the given date
+  
+  Date& setDay(int aDay)
+  Date& setMonth(int aMonth)
+  Date& setYear(int aYear)
+  
+  int   getDay()
+  int   getMonth()
+  int   getYear()  
+  int   getWeekOfYear() //1..52
+  int   getDayOfYear() //1..365
+  int   daysInMonth() //based on month/year, return # of days...
+  
+  std::string toDateString();  
+  
   ... more members here as necessary...
 
 }
 ```
 
 #### The Time Class 
-asdf
+
+This class is much simpler, as shown below:
 
 ```
 class Time {
@@ -65,32 +90,40 @@ class Time {
   Time(const Time &aCopy);  
   Time(const DateTime &aCopy);
 
+  int   getHour()
+  int   getMinutes()
+  int   getSeconds()  
+
+  std::string toTimeString();  
+
   ... more members here as necessary...
 
 }
 ```
 
 #### The DateTime Class 
-You are free to implement your `DateTime` class any way you see fit. It must, however, fulfill certain requirements:
 
-- You must be able to construct a `DateTime` class without any arguments, in which case it refers to the current date/time, assuming the default timezone of GMT
-- You must be able to construct a `DateTime` class using 6 integers (int month, int day, int year, int hour, int mins, int seconds)
-- You must be able to construct a `DateTime` class using a well-formed string ("Jan 4, 1961 08:00:00 PST") (or basic variations of that)
-- You must be able to copy construct a `DateTime` from another `DateTime` class
-- You must be able to convert construct a `DateTime` from another `Date` class
-- You must be able to construct a `DateTime` from a `Date` AND a `Time` class
-- You must be able to ask a `DateTime` class to return the current `Timezone` that it is based upon
-- You must be able to change the timezone a `DateTime` object is using 
-- You must provide a conversion operator from your `DateTime` class to a const char*. 
+You are free to implement your `DateTime` class any way you see fit. In general, the `DateTime` class combines features of the `Date` class with features of the `Time` class. In addition, the `DateTime` class must also support timezones.  
+
 ```
-
 class DateTime {
-  ...constructors...
-  
+
+             DateTime(Timezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
+             DateTime(const DateTime &aCopy); //copy construct
+             DateTime(int aMonth, int aDay, int aYear, int anHour=0, int aMinutes=0, int aSeconds=0, Timezone *aTimezone=nullptr); 
+             DateTime(const char* aString, Timezone *aTimezone=nullptr); //parse the given string (details below)
+             DateTime(const Date &aDate, const Time &aTime, Timezone *aTimezone=nullptr); 
+             
   Timezone&  getTimezone();
   DateTime&  setTimezone(Timezone &aTimezone);
-             operator const char*();
 
+             operator const char*();
+             operator Date(); 
+             operator Time();
+             operator Timezone();
+             
+  std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST 
+             
   ... more members here as necessary...
 
 }
@@ -111,7 +144,8 @@ Your timezone class must support default construction, copy construction, and co
 
 ```
 class Timezone {
-  ...constructors...
+  Timezone(const char* aTimezoneAbbrev);
+  Timezone(const Timezone &aTimezone);
   
   operator const char*();
   
