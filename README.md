@@ -3,31 +3,35 @@ Due: Feb 28, 11:15p (PST)
 
 ## Preface
 
-Ahh, remember the days when assignments involved one simple class. That was fun, right?  Sadly, very few real-world challenges can be accomplished with single class. So this assignment involves multiples classes that all work together to accomplish a task.
+We can all remember the simpler days (last week) when homework assignments involved building one simple class. That was fun, right?  Sadly, very few real-world software problems can be implemented so easily. Therefore, this assignment involves multiples classes that have to work together to accomplish the given task. 
 
-## Welcome to JobCo!
+## JobCo Plans to Go PUBLIC!
 
-You've just started a new internship at JobCo, a chic software company in the heart of Silicon Valley that sells party balloons with integrated block-chain tracking. You've met your new manager, Chloe, who introduces you to the rest of the team. As you are wisked through the office, you race past a herd of zombies that are wandering aimlessly in the basement. "Oh my goodness", you say, in disbelief.  "Don't let them bother you", Chloe says smiling, "that's just the marketing department taking a lunch break". JobCo is going to be very interesting.
+IPO! WOOT WOOT!  It's very exciting when your cool little startup grows up, and is ready to go public. Sure, lots of early employees stand to make a lot of money on their stock grants. But it's not all fun and games you know. The process of "going public" takes a tremendous amount of work, making sure that all of your internal processes are up to the standards necessary to meet public scrutiny. As it turns out, JobCo has more than a few problems, and you've been placed on the "going public" software team. Good luck!
 
-### Your FIRST Sprint Meeting
+### Calendrical Computations
 
-The next morning you get to sit in on your very first "Sprint Meeting" where the team discusses the work they're going to accomplish for the week. Each of the engineers talks briefly about their challenges and expected output. At last, all eyes drop onto you. Before panic seizes you, Chloes says, "Hey everyone, this is our new summer intern!". The team smiles knowingly, suggesting you may be in for more than you bargained for.  What happens next is mostly a blur. For one, you don't remember actually saying anything. But suddenly you realize that Chloe has tasked you with delivering some mission critical code, and FAST!  
-
-### Your Team Makes a Decision
-
-Just before the end of the standup meeting, Morris (a performance engineer) raises the topic of how slowly the application is performing. "Seriously", he says, "the app is running 5x slower today than it was a month ago". "What we need", he continues, "is someone to rewrite our string class to stop all the unnecessary memory allocations and performance problems."
-
-"Great -- our new intern can build us a new string class this Sprint!", Chloe exclaims, never missing an opportunity. Sade, a UX designer on the team, says, "Hold on, why can't we just use the std::string class provided by the STL? Won't that be cheaper than building our own?"  Morris can barely contain himeself. "No!", he chides, "the STL is great in general, but it's way too big, and I just know we can build something smaller and faster!"
-
-Sadly, no amount of arguing about re-inventing the wheel would stop Morris and Chloe from building their own string class. Welcome to Silicon Valley. :)
+"Ok everyone, settle down", Chloe says, smiling softly. "As you've all heard, JobCo is going public...", she begins, then stops abruptly as the room explodes into cheers and shouting. Waiting for nearly a minute, she finally continues, "Ok, ok, before you all rush out and buy yourself a Tesla, we have some work to do." 
 
 ## Assignment Details
 
-In this assignment, you are going to build a string class. String classes provide an object-oriented solution to managing character buffers in an application. Most modern applications have to manage strings to some degree, but for some applications, like word-processors and browsers, string management can have a tremendous impact on performance and memory management.
+In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customer of your solution will use your classes to do things like creating timers in their own code, or performing timezone conversions within their application. 
 
-### Class interface (incomplete)
+At a minimum, you will implement five classes:
 
-We have provided a starting point for your string class, in the SFString.hpp file.  It looks like this:
+```
+class Date;
+class Time;
+class DateTime;
+class Timezone;
+class Interval;
+```
+
+### The Testing Interface
+
+In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. Once you turn in your work, Vlad-the-compiler will use your testing harness to perform operations that we can use to grade your work.  
+
+The testing harness looks like this:
 
 ```
 
