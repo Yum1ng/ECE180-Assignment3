@@ -41,7 +41,7 @@ You are free to implement your `Date` class any way you see fit. It must, howeve
 - You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
 - You must provide a conversion operator from your `Date` class to a const char*. 
 
-Your `Date` class must also support basic operations to change the date incrementally, as well as methods to get/set various properties of the date. Here's a summary of your interface:
+Your `Date` class must also support basic operations to change the date incrementally, relational operator, as well as methods to get/set various properties of the date. Here's a summary of your interface:
 
 ```
 
@@ -69,8 +69,16 @@ class Date {
   int   getYear()  
   int   getWeekOfYear() //1..52
   int   getDayOfYear() //1..365
+  in    getDayOfweek() //0..6 {0==sunday}
   int   daysInMonth() //based on month/year, return # of days...
   
+    //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
+
+  Date& startOfMonth(); (02/01/2018) //depends on month...
+  Date& endOfMonth();  (02/28/2018)  //depends on month
+  Date& startOfYear(); (01/01/2018)
+  Date& endOfYear();   (12/31/2018)
+
   std::string toDateString();  
   
   ... more members here as necessary...
@@ -94,7 +102,12 @@ class Time {
   int   getMinutes()
   int   getSeconds()  
 
+  Time& startOfDay(); (00:00:00)
+  Time& endOfDay();   (23:59:59)
+  
   std::string toTimeString();  
+
+    //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
   ... more members here as necessary...
 
@@ -103,7 +116,7 @@ class Time {
 
 #### The DateTime Class 
 
-You are free to implement your `DateTime` class any way you see fit. In general, the `DateTime` class combines features of the `Date` class with features of the `Time` class. In addition, the `DateTime` class must also support timezones.  
+You are free to implement your `DateTime` class any way you see fit. In general, the `DateTime` class combines features of the `Date` class with features of the `Time` class. In addition, the `DateTime` class must also support timezones and relational operators.  
 
 ```
 class DateTime {
@@ -117,10 +130,12 @@ class DateTime {
   Timezone&  getTimezone();
   DateTime&  setTimezone(Timezone &aTimezone);
 
+    //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
+
              operator const char*();
              operator Date(); 
              operator Time();
-             operator Timezone();
+             operator Timezone();             
              
   std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST 
              
