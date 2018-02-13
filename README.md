@@ -15,16 +15,16 @@ IPO! WOOT WOOT!  It's very exciting when your cool little startup grows up, and 
 
 ## Assignment Details
 
-In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customer of your solution will use your classes to do things like creating timers in their own code, or performing timezone conversions within their application. 
+In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customer of your solution will use your classes to do things like creating timers in their own code, or performing timezone conversions within their application. All of your classes will be declared within a namespace called "SoftwareFoundations".
 
 At a minimum, you will implement five classes:
 
 ```
-class Date;
-class Time;
-class DateTime;
-class Timezone;
-class Interval;
+class SFDate;
+class SFTime;
+class SFDateTime;
+class SFTimezone;
+class SFInterval;
 ```
 
 Note that you are free to create any other classes you need in order to support your solution. Presumably, if you add other classes it is to provide functionality to your solution that you have deemed "worthy" to be part of your solution. Totally up to you. Our testing framework will only interact with the five classes we have outlined above.
@@ -33,36 +33,38 @@ Note that you are free to create any other classes you need in order to support 
 
 You are free to implement your `Date` class any way you see fit. It must, however, fulfill certain requirements:
 
-#### The Date Class 
+#### The SFDate Class 
 
-- You must be able to construct a `Date` class without any arguments, in which case it refers to the current date
-- You must be able to construct a `Date` class using 3 integers (int month, int day, int year)
-- You must be able to construct a `Date` class using a well-formed string ("Jan 4, 1961")
-- You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
-- You must provide a conversion operator from your `Date` class to a const char*. 
+- You must be able to construct a `SFDate` class without any arguments, in which case it refers to the current date
+- You must be able to construct a `SFDate` class using 3 integers (int month, int day, int year)
+- You must be able to construct a `SFDate` class using a well-formed string ("Jan 4, 1961")
+- You must be able to copy construct a `SFDate` from another `SFDate` class, or convert/construct from a `SFDateTime` class
+- You must provide a conversion operator from your `SFDate` class to a const char*. 
 
 Your `Date` class must also support basic operations to change the date incrementally, relational operator, as well as methods to get/set various properties of the date. Here's a summary of your interface:
 
 ```
 
-class Date {
-  Date();                             //default to today, in GMT timezone
-  Date(const char *aDateTimeString);  //must parse the given (well-formed) string  -- (more details below)
-  Date(int month, int day, int year); //build date from individual parts
-  Date(const Date &aCopy);  
-  Date(const DateTime &aCopy);
+class SFDate {
+  SFDate();                             //default to today, in GMT timezone
+  SFDate(const char *aDateTimeString);  //must parse the given (well-formed) string  -- (more details below)
+  SFDate(int month, int day, int year); //build date from individual parts
+  SFDate(const SFDate &aCopy);  
+  SFDate(const SFDateTime &aCopy);
 
   operator ++(); //advance by one day
   operator --(); //back up by one day...
-
-  Date& adjustByDays(int n) -- to add or subtract N days from the given date
-  Date& adjustByWeeks(int n) -- to add or subtract N weeks from the given date
-  Date& adjustByMonths(int n) -- to add or subtract N months from the given date
-  Date& adjustByYears(int n) -- to add or subtract N years from the given date
   
-  Date& setDay(int aDay)
-  Date& setMonth(int aMonth)
-  Date& setYear(int aYear)
+  Interval operator-(const Date& aCopy); //returns Interval object (difference between two Date objects)
+
+  SFDate& adjustByDays(int n) -- to add or subtract N days from the given date
+  SFDate& adjustByWeeks(int n) -- to add or subtract N weeks from the given date
+  SFDate& adjustByMonths(int n) -- to add or subtract N months from the given date
+  SFDate& adjustByYears(int n) -- to add or subtract N years from the given date
+  
+  SFDate& setDay(int aDay)
+  SFDate& setMonth(int aMonth)
+  SFDate& setYear(int aYear)
   
   int   getDay()
   int   getMonth()
@@ -74,10 +76,10 @@ class Date {
   
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
-  Date& startOfMonth(); (02/01/2018) //depends on month...
-  Date& endOfMonth();  (02/28/2018)  //depends on month
-  Date& startOfYear(); (01/01/2018)
-  Date& endOfYear();   (12/31/2018)
+  SFDate& startOfMonth(); (02/01/2018) //depends on month...
+  SFDate& endOfMonth();  (02/28/2018)  //depends on month
+  SFDate& startOfYear(); (01/01/2018)
+  SFDate& endOfYear();   (12/31/2018)
 
   std::string toDateString();  
   
@@ -86,24 +88,26 @@ class Date {
 }
 ```
 
-#### The Time Class 
+#### The SFTime Class 
 
 This class is much simpler, as shown below:
 
 ```
-class Time {
-  Time();                             //default to now(HH:MM:SS) 
-  Time(const char *aTimeString);      //must parse fro the given (well-formed) string  
-  Time(int anHour, int aMinutes, int aSeconds); //build time from individual parts
-  Time(const Time &aCopy);  
-  Time(const DateTime &aCopy);
+class SFTime {
+  SFTime();                             //default to now(HH:MM:SS) 
+  SFTime(const char *aTimeString);      //must parse fro the given (well-formed) string  
+  SFTime(int anHour, int aMinutes, int aSeconds); //build time from individual parts
+  SFTime(const SFTime &aCopy);  
+  SFTime(const SFDateTime &aCopy);
+
+  Interval operator-(const SFTime& aCopy); //returns Interval object (difference between two Time objects)
 
   int   getHour()
   int   getMinutes()
   int   getSeconds()  
 
-  Time& startOfDay(); (00:00:00)
-  Time& endOfDay();   (23:59:59)
+  SFTime& startOfDay(); (00:00:00)
+  SFTime& endOfDay();   (23:59:59)
   
   std::string toTimeString();  
 
@@ -114,28 +118,30 @@ class Time {
 }
 ```
 
-#### The DateTime Class 
+#### The SFDateTime Class 
 
-You are free to implement your `DateTime` class any way you see fit. In general, the `DateTime` class combines features of the `Date` class with features of the `Time` class. In addition, the `DateTime` class must also support timezones and relational operators.  
+You are free to implement your `SFDateTime` class any way you see fit. In general, the `SFDateTime` class combines features of the `SFDate` class with features of the `SFTime` class. In addition, the `DateTime` class must also support timezones and relational operators.  
 
 ```
-class DateTime {
+class SFDateTime {
 
-             DateTime(Timezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
-             DateTime(const DateTime &aCopy); //copy construct
-             DateTime(int aMonth, int aDay, int aYear, int anHour=0, int aMinutes=0, int aSeconds=0, Timezone *aTimezone=nullptr); 
-             DateTime(const char* aString, Timezone *aTimezone=nullptr); //parse the given string (details below)
-             DateTime(const Date &aDate, const Time &aTime, Timezone *aTimezone=nullptr); 
+  SFDateTime(Timezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
+  SFDateTime(const SFDateTime &aCopy); //copy construct
+  SFDateTime(int aMonth, int aDay, int aYear, int anHour=0, int aMinutes=0, int aSeconds=0, Timezone *aTimezone=nullptr); 
+  SFDateTime(const char* aString, SFTimezone *aTimezone=nullptr); //parse the given string (details below)
+  SFDateTime(const SFDate &aDate, const SFTime &aTime, SFTimezone *aTimezone=nullptr); 
              
-  Timezone&  getTimezone();
-  DateTime&  setTimezone(Timezone &aTimezone);
+  Interval operator-(const SFDateTime& aCopy); //returns Interval object (difference between two DateTime objects)
+             
+  SFTimezone&  getTimezone();
+  SFDateTime&  setTimezone(SFTimezone &aTimezone);
 
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
-             operator const char*();
-             operator Date(); 
-             operator Time();
-             operator Timezone();             
+  operator const char*();
+  operator SFDate(); 
+  operator SFTime();
+  operator SFTimezone();             
              
   std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST 
              
@@ -144,7 +150,7 @@ class DateTime {
 }
 ```
 
-#### The Timezone Class 
+#### The SFTimezone Class 
 
 Timezones can be tricky, so we're keeping the requirements to a minimum. The baseline timezone for your solution is "GMT" -- which refers to Greenwich Mean Time, clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.
 
@@ -158,9 +164,9 @@ Although there a more than 20 _actual_ timezones, we will only ever ask you to s
 Your timezone class must support default construction, copy construction, and construction from one of the four abbreviations listed above. We will also ask your Timezone class to provide a const char* conversion operator in case a caller wants to be able to print out the string value of the current timezone.
 
 ```
-class Timezone {
-  Timezone(const char* aTimezoneAbbrev);
-  Timezone(const Timezone &aTimezone);
+class SFTimezone {
+  SFTimezone(const char* aTimezoneAbbrev);
+  SFTimezone(const SFTimezone &aTimezone);
   
   operator const char*();
   
@@ -168,9 +174,20 @@ class Timezone {
 };
 ```
 
-#### The Interval Class 
+#### The SFInterval Class 
 
-Date intervals are used to determine the calendrical distance bewteen two `DateTime` classes. 
+Date intervals are used to determine the calendrical distance bewteen two calendrical classes. SFTime, SFDate and SFDateTime all offer a conversion operator that returns an SFInterval. For `SFTime` classes, only time relevant properties are set (h,min,sec). For `SFDate` class, only date-relevant properties are set (m,d,y). For `SFDateTime` instances, date and time properties are all set. 
+
+```
+class SFInterval {
+  int years;
+  int months;
+  int days;
+  int hours;
+  int minutes;
+  int seconds;  
+}
+```
 
 ### The Testing Interface
 
@@ -180,33 +197,12 @@ The testing harness looks like this:
 
 ```
 
-class SFString {
+class SFCalendricalTester {
 public:
-  
-  SFString();
-  SFString(const SFString& aString);
-  
-  SFString&    operator=(const SFString& aString);
-  
-  operator const char*() const;
-  
-  char         operator[](int pos) const;
-
-  SFString&    operator+=(const SFString &aString);
-  
-  bool         operator<(const SFString &aString);
-  bool         operator<=(const SFString &aString);
-  bool         operator>(const SFString &aString);
-  bool         operator>=(const SFString &aString);
-  bool         operator==(const SFString &aString);
-  bool         operator!=(const SFString &aString);
-  
-  int          find(const SFString &aString, size_t offset=0);
-  
-  SFString&    insert(size_t aPos, const SFString &aString);
-  SFString&    insert(size_t aPos, const char aChar);    
-  SFString&    replace(size_t pos, size_t len, const SFString &aString);   
-  SFString&    erase(size_t pos, size_t len);  
 };
 
 ```
+
+### Submitting Your Assignment
+
+more details here...
