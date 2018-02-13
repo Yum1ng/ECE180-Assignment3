@@ -193,7 +193,7 @@ class SFInterval {
 
 In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. Once you turn in your work, Vlad-the-compiler will use your testing harness to perform operations that we can use to grade your work.  
 
-The testing harness looks like this:
+The testing harness looks like this, and the writing the actual test code is up to you.  Vlad-the-compiler will use his _own_ version of the test harness.
 
 ```
 class SFTestHarness {
