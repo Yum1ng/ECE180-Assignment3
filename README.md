@@ -30,7 +30,12 @@ class Interval;
 Note that you are free to create any other classes you need in order to support your solution. Presumably, if you add other classes it is to provide functionality to your solution that you have deemed "worthy" to be part of your solution. Totally up to you. Our testing framework will only interact with the five classes we have outlined above.
 
 ### About Your Classes
-asdf
+
+You are free to implement your `Date` class any way you see fit. It must, however, fulfill certain requirements:
+
+- You must be able to construct a `Date` class using 3 integers (date, month, year)
+- You must be able to construct a `Date` class using a well-formed string ("Jan 4, 1961")
+- You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
 
 #### The Date Class 
 asdf
