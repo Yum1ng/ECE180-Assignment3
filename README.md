@@ -33,21 +33,21 @@ Note that you are free to create any other classes you need in order to support 
 
 You are free to implement your `Date` class any way you see fit. It must, however, fulfill certain requirements:
 
-- You must be able to construct a `Date` class without any arguments, in which case it refers to the current date/time, assuming the default timezone of GMT
+#### The Date Class 
+
+- You must be able to construct a `Date` class without any arguments, in which case it refers to the current date
 - You must be able to construct a `Date` class using 3 integers (int month, int day, int year)
 - You must be able to construct a `Date` class using a well-formed string ("Jan 4, 1961")
 - You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
-- You must be able to ask a `Date` class to return the current `Timezone` that it is based upon
-- You must be able to change the timezone a `Date` object is using 
 - You must provide a conversion operator from your `Date` class to a const char*. 
 
 ```
 class Date {
-             Date();                             //default to today, in GMT timezone
-             Date(const char *aDateTimeString);  //must parse the given string  
-             Date(int month, int day, int year); //build date from individual parts
-             Date(const Date &aCopy);  
-             Date(const DateTime &aCopy);
+  Date();                             //default to today, in GMT timezone
+  Date(const char *aDateTimeString);  //must parse the given (well-formed) string  
+  Date(int month, int day, int year); //build date from individual parts
+  Date(const Date &aCopy);  
+  Date(const DateTime &aCopy);
 
   ... more members here as necessary...
 
@@ -59,11 +59,11 @@ asdf
 
 ```
 class Time {
-             Time();                             //default to now(HH:MM:SS) 
-             Time(const char *aTimeString);      //must parse fro the given string  
-             Time(int anHour, int aMinutes, int aSeconds); //build time from individual parts
-             Time(const Time &aCopy);  
-             Time(const DateTime &aCopy);
+  Time();                             //default to now(HH:MM:SS) 
+  Time(const char *aTimeString);      //must parse fro the given (well-formed) string  
+  Time(int anHour, int aMinutes, int aSeconds); //build time from individual parts
+  Time(const Time &aCopy);  
+  Time(const DateTime &aCopy);
 
   ... more members here as necessary...
 
@@ -89,6 +89,7 @@ class DateTime {
   
   Timezone&  getTimezone();
   DateTime&  setTimezone(Timezone &aTimezone);
+             operator const char*();
 
   ... more members here as necessary...
 
@@ -99,9 +100,9 @@ class DateTime {
 
 Timezones can be tricky, so we're keeping the requirements to a minimum. The baseline timezone for your solution is "GMT" -- which refers to Greenwich Mean Time, clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.
 
-Although there a more than 20 _actual_ timezones, we will only ever ask you to support four, using an abbreviations:
+Although there a more than 20 _actual_ timezones, we will only ever ask you to support four, using an abbreviation:
 
-1. GMT (gmt as specified above)
+1. GMT (GMT as described above)
 2. EST (US Eastern standard time)
 3. CST (US Central standard time)
 4. PST (US Pacific standard time)
@@ -119,7 +120,8 @@ class Timezone {
 ```
 
 #### The Interval Class 
-asdf
+
+Date intervals are used to determine the calendrical distance bewteen two `DateTime` classes. 
 
 ### The Testing Interface
 
