@@ -33,21 +33,90 @@ Note that you are free to create any other classes you need in order to support 
 
 You are free to implement your `Date` class any way you see fit. It must, however, fulfill certain requirements:
 
-- You must be able to construct a `Date` class using 3 integers (date, month, year)
+- You must be able to construct a `Date` class without any arguments, in which case it refers to the current date/time, assuming the default timezone of GMT
+- You must be able to construct a `Date` class using 3 integers (int month, int day, int year)
 - You must be able to construct a `Date` class using a well-formed string ("Jan 4, 1961")
 - You must be able to copy construct a `Date` from another `Date` class, or convert/construct from a `DateTime` class
+- You must be able to ask a `Date` class to return the current `Timezone` that it is based upon
+- You must be able to change the timezone a `Date` object is using 
+- You must provide a conversion operator from your `Date` class to a const char*. 
 
-#### The Date Class 
-asdf
+```
+class Date {
+             Date();                             //default to today, in GMT timezone
+             Date(const char *aDateTimeString);  //must parse the given string  
+             Date(int month, int day, int year); //build date from individual parts
+             Date(const Date &aCopy);  
+             Date(const DateTime &aCopy);
+
+  ... more members here as necessary...
+
+}
+```
 
 #### The Time Class 
 asdf
 
+```
+class Time {
+             Time();                             //default to now(HH:MM:SS) 
+             Time(const char *aTimeString);      //must parse fro the given string  
+             Time(int anHour, int aMinutes, int aSeconds); //build time from individual parts
+             Time(const Time &aCopy);  
+             Time(const DateTime &aCopy);
+
+  ... more members here as necessary...
+
+}
+```
+
 #### The DateTime Class 
-asdf
+You are free to implement your `DateTime` class any way you see fit. It must, however, fulfill certain requirements:
+
+- You must be able to construct a `DateTime` class without any arguments, in which case it refers to the current date/time, assuming the default timezone of GMT
+- You must be able to construct a `DateTime` class using 6 integers (int month, int day, int year, int hour, int mins, int seconds)
+- You must be able to construct a `DateTime` class using a well-formed string ("Jan 4, 1961 08:00:00 PST") (or basic variations of that)
+- You must be able to copy construct a `DateTime` from another `DateTime` class
+- You must be able to convert construct a `DateTime` from another `Date` class
+- You must be able to construct a `DateTime` from a `Date` AND a `Time` class
+- You must be able to ask a `DateTime` class to return the current `Timezone` that it is based upon
+- You must be able to change the timezone a `DateTime` object is using 
+- You must provide a conversion operator from your `DateTime` class to a const char*. 
+```
+
+class DateTime {
+  ...constructors...
+  
+  Timezone&  getTimezone();
+  DateTime&  setTimezone(Timezone &aTimezone);
+
+  ... more members here as necessary...
+
+}
+```
 
 #### The Timezone Class 
-asdf
+
+Timezones can be tricky, so we're keeping the requirements to a minimum. The baseline timezone for your solution is "GMT" -- which refers to Greenwich Mean Time, clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.
+
+Although there a more than 20 _actual_ timezones, we will only ever ask you to support four, using an abbreviations:
+
+1. GMT (gmt as specified above)
+2. EST (US Eastern standard time)
+3. CST (US Central standard time)
+4. PST (US Pacific standard time)
+
+Your timezone class must support default construction, copy construction, and construction from one of the four abbreviations listed above. We will also ask your Timezone class to provide a const char* conversion operator in case a caller wants to be able to print out the string value of the current timezone.
+
+```
+class Timezone {
+  ...constructors...
+  
+  operator const char*();
+  
+  ...other members as needed...
+};
+```
 
 #### The Interval Class 
 asdf
