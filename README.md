@@ -76,7 +76,7 @@ class SFDate {
   
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
-  SFDate& startOfMonth(); (02/01/2018) //depends on month...
+  SFDate& startOfMonth(); (02/01/2018) 
   SFDate& endOfMonth();  (02/28/2018)  //depends on month
   SFDate& startOfYear(); (01/01/2018)
   SFDate& endOfYear();   (12/31/2018)
