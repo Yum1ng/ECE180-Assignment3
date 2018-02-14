@@ -95,7 +95,7 @@ This class is much simpler, as shown below:
 ```
 class SFTime {
   SFTime();                             //default to now(HH:MM:SS) 
-  SFTime(const char *aTimeString);      //must parse fro the given (well-formed) string  
+  SFTime(const char *aTimeString);      //must parse the given (well-formed) string  
   SFTime(int anHour, int aMinutes, int aSeconds); //build time from individual parts
   SFTime(const SFTime &aCopy);  
   SFTime(const SFDateTime &aCopy);
@@ -176,7 +176,7 @@ class SFTimezone {
 
 #### The SFInterval Class 
 
-Date intervals are used to determine the calendrical distance bewteen two calendrical classes. SFTime, SFDate and SFDateTime all offer a conversion operator that returns an SFInterval. For `SFTime` classes, only time relevant properties are set (h,min,sec). For `SFDate` class, only date-relevant properties are set (m,d,y). For `SFDateTime` instances, date and time properties are all set. 
+Date intervals are used to determine the calendrical distance between two calendrical classes. SFTime, SFDate and SFDateTime all offer a conversion operator that returns an SFInterval. For `SFTime` classes, only time relevant properties are set (h,min,sec). For `SFDate` class, only date-relevant properties are set (m,d,y). For `SFDateTime` instances, date and time properties are all set. 
 
 ```
 class SFInterval {
