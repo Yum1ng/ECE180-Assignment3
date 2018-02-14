@@ -47,7 +47,7 @@ Your `Date` class must also support basic operations to change the date incremen
 
 class SFDate {
   SFDate();                             //default to today, in GMT timezone
-  SFDate(const char *aDateTimeString);  //must parse the given (well-formed) string  -- (more details below)
+  SFDate(const char *aDateTimeString);  //must parse the given string of the form MM/DD/YYYY
   SFDate(int month, int day, int year); //build date from individual parts
   SFDate(const SFDate &aCopy);  
   SFDate(const SFDateTime &aCopy);
@@ -81,7 +81,7 @@ class SFDate {
   SFDate& startOfYear(); (01/01/2018)
   SFDate& endOfYear();   (12/31/2018)
 
-  std::string toDateString();  
+  std::string toDateString();  //Return a string of the form MM/DD/YYYY
   
   ... more members here as necessary...
 
@@ -95,7 +95,7 @@ This class is much simpler, as shown below:
 ```
 class SFTime {
   SFTime();                             //default to now(HH:MM:SS) 
-  SFTime(const char *aTimeString);      //must parse the given (well-formed) string  
+  SFTime(const char *aTimeString);      //must parse the given string of the form "HH:MM:SS"
   SFTime(int anHour, int aMinutes, int aSeconds); //build time from individual parts
   SFTime(const SFTime &aCopy);  
   SFTime(const SFDateTime &aCopy);
@@ -109,7 +109,7 @@ class SFTime {
   SFTime& startOfDay(); (00:00:00)
   SFTime& endOfDay();   (23:59:59)
   
-  std::string toTimeString();  
+  std::string toTimeString();  //Returns string of the form HH:MM:SS
 
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
@@ -128,7 +128,7 @@ class SFDateTime {
   SFDateTime(Timezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
   SFDateTime(const SFDateTime &aCopy); //copy construct
   SFDateTime(int aMonth, int aDay, int aYear, int anHour=0, int aMinutes=0, int aSeconds=0, Timezone *aTimezone=nullptr); 
-  SFDateTime(const char* aString, SFTimezone *aTimezone=nullptr); //parse the given string (details below)
+  SFDateTime(const char* aString, SFTimezone *aTimezone=nullptr); //parse the given string of the form "MM/DD/YYYY HH:MM:SS"
   SFDateTime(const SFDate &aDate, const SFTime &aTime, SFTimezone *aTimezone=nullptr); 
              
   Interval operator-(const SFDateTime& aCopy); //returns Interval object (difference between two DateTime objects)
@@ -138,7 +138,7 @@ class SFDateTime {
 
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
-  operator const char*();
+  operator const char*();   //Returns string of the form "MON DATE, YEAR HH:MM:SS TIMEZONE" Ex. Jan 4, 1961 09:15:00 PST
   operator SFDate(); 
   operator SFTime();
   operator SFTimezone();             
@@ -168,7 +168,7 @@ class SFTimezone {
   SFTimezone(const char* aTimezoneAbbrev);
   SFTimezone(const SFTimezone &aTimezone);
   
-  operator const char*();
+  operator const char*(); // Returns the 3 letter abbreviation of the timezone
   
   ...other members as needed...
 };
@@ -186,6 +186,9 @@ class SFInterval {
   int hours;
   int minutes;
   int seconds;  
+  
+  operator const char*(); // Returns the interval of the form "Y years, M months, D days, H hours, M minutes and S seconds"
+                          // Ex. 5 years, 3 months, 2 days, 6 hours, 7 minutes and 10 seconds
 }
 ```
 
