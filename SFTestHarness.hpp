@@ -13,7 +13,7 @@ namespace SoftwareFoundations {
 
   class SFTestHarness {
   public:
-    static int runTests();
+    static int runAllTests();
     static int runDateTests();
     static int runTimeTests();
     static int runDateTimeTests();

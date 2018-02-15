@@ -29,7 +29,7 @@ int SFTestHarness::runTimezoneTests() {
   return 0;
 }
 
-int SFTestHarness::runTests() {
+int SFTestHarness::runAllTests() {
   int theResult = runDateTests();
   theResult+=runTimeTests();
   theResult+=runDateTimeTests();
