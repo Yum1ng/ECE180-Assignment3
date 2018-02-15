@@ -66,24 +66,26 @@ class SFDate {
   SFDate& setMonth(int aMonth)
   SFDate& setYear(int aYear)
   
-  int   getDay()
-  int   getMonth()
-  int   getYear()  
-  int   getWeekOfYear() //1..52
-  int   getDayOfYear() //1..365
-  in    getDayOfweek() //0..6 {0==sunday}
-  int   daysInMonth() //based on month/year, return # of days...
+  int   getDay()    //if date is 12/15/2018, the day is the 15th
+  int   getMonth()  //if date is 12/15/2018, the month is 12 (dec)
+  int   getYear()   //if date is 12/15/2018, the year is 2018
   
-    //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
+  int   getWeekOfYear() //if date is 01/10/2018, the week of year is 2 (range is 1..52)
+  int   getDayOfYear()  //if date is 01/04/1961, the day of year is 4 (range is 1..365)
+  in    getDayOfweek()  //range (0..6 -- 0==sunday) 
+  int   daysInMonth()   //based on month/year, return # of days in the month
+  
+  SFDate& startOfMonth(); //if date is 12/15/2018, return 12/01/2018 
+  SFDate& endOfMonth();   //if date is 12/15/2018, return 12/31/2018
 
-  SFDate& startOfMonth(); (02/01/2018) 
-  SFDate& endOfMonth();  (02/28/2018)  //depends on month
-  SFDate& startOfYear(); (01/01/2018)
-  SFDate& endOfYear();   (12/31/2018)
+  SFDate& startOfYear();  //if date is 12/15/2018, return 01/01/2018 
+  SFDate& endOfYear();    //if date is 12/15/2018, return 12/31/2018
 
   std::string toDateString();  //Return a string of the form MM/DD/YYYY
-  
-  ... more members here as necessary...
+
+    //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
+
+  ... other members here as necessary...
 
 }
 ```
@@ -100,7 +102,8 @@ class SFTime {
   SFTime(const SFTime &aCopy);  
   SFTime(const SFDateTime &aCopy);
 
-  Interval operator-(const SFTime& aCopy); //returns Interval object (difference between two Time objects)
+  SFTime& adjustByMinutes(int n) -- to +/- N minutes from the given time
+  SFTime& adjustByHours(int n) -- to +/- N hours from the given time. 11:15pm + 2hours is 1:15a (rolls over)
 
   int   getHour()
   int   getMinutes()
@@ -120,7 +123,7 @@ class SFTime {
 
 #### The SFDateTime Class 
 
-You are free to implement your `SFDateTime` class any way you see fit. In general, the `SFDateTime` class combines features of the `SFDate` class with features of the `SFTime` class. In addition, the `DateTime` class must also support timezones and relational operators.  
+You are free to implement your `SFDateTime` class any way you see fit. In general, the `SFDateTime` class combines features of the `SFDate` class with features of the `SFTime` class. In addition, the `DateTime` class must also support timezones and relational operators.  Anything you can do with date or time classes, you can do here too.
 
 ```
 class SFDateTime {
