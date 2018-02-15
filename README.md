@@ -21,7 +21,7 @@ Chloe divides the teams up into smaller groups. You get assigned to the team who
 
 ## Assignment Details
 
-In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customer of your solution will use your classes to do things like creating timers in their own code, or performing timezone conversions within their application. All of your classes will be declared within a namespace called "SoftwareFoundations".
+In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customers of your solution will use your solution to do things like creating timers in their own code, or handling timezone conversions within their application. All of your classes will be declared within a namespace called "SoftwareFoundations".
 
 At a minimum, you will implement five classes:
 
@@ -43,11 +43,11 @@ You are free to implement your `Date` class any way you see fit. It must, howeve
 
 - You must be able to construct a `SFDate` class without any arguments, in which case it refers to the current date
 - You must be able to construct a `SFDate` class using 3 integers (int month, int day, int year)
-- You must be able to construct a `SFDate` class using a well-formed string ("Jan 4, 1961")
+- You must be able to construct a `SFDate` class using a well-formed string ("Jan 4, 1961") or ("January 4, 1961")
 - You must be able to copy construct a `SFDate` from another `SFDate` class, or convert/construct from a `SFDateTime` class
 - You must provide a conversion operator from your `SFDate` class to a const char*. 
 
-Your `Date` class must also support basic operations to change the date incrementally, relational operator, as well as methods to get/set various properties of the date. Here's a summary of your interface:
+Your `Date` class must also support basic operations to change the date incrementally, relational operations, as well as methods to get/set various properties of the date. Here's a summary of your interface:
 
 ```
 
@@ -60,17 +60,18 @@ class SFDate {
 
   operator ++(); //advance by one day
   operator --(); //back up by one day...
-  
-  Interval operator-(const Date& aCopy); //returns Interval object (difference between two Date objects)
+
+  SFInterval operator-(const SFDate &other) const; //determine interval bewteen two dates...
+  SFInterval operator-(const SFDateTime &other) const; //determine interval bewteen two objects...
 
   SFDate& adjustByDays(int n) -- to add or subtract N days from the given date
   SFDate& adjustByWeeks(int n) -- to add or subtract N weeks from the given date
   SFDate& adjustByMonths(int n) -- to add or subtract N months from the given date
   SFDate& adjustByYears(int n) -- to add or subtract N years from the given date
   
-  SFDate& setDay(int aDay)
-  SFDate& setMonth(int aMonth)
-  SFDate& setYear(int aYear)
+  SFDate& setDay(int aDay)      //set the current day of the given date object; aDay must be in valid range
+  SFDate& setMonth(int aMonth)  //set the current month of the given date object aMonth must be in valid range
+  SFDate& setYear(int aYear)    //set the current year; must be in valid range
   
   int   getDay()    //if date is 12/15/2018, the day is the 15th
   int   getMonth()  //if date is 12/15/2018, the month is 12 (dec)
@@ -79,7 +80,7 @@ class SFDate {
   int   getWeekOfYear() //if date is 01/10/2018, the week of year is 2 (range is 1..52)
   int   getDayOfYear()  //if date is 01/04/1961, the day of year is 4 (range is 1..365)
   in    getDayOfweek()  //range (0..6 -- 0==sunday) 
-  int   daysInMonth()   //based on month/year, return # of days in the month
+  int   daysInMonth()   //based on month/year, return # of days in the month 
   
   SFDate& startOfMonth(); //if date is 12/15/2018, return 12/01/2018 
   SFDate& endOfMonth();   //if date is 12/15/2018, return 12/31/2018
@@ -111,12 +112,15 @@ class SFTime {
   SFTime& adjustByMinutes(int n) -- to +/- N minutes from the given time
   SFTime& adjustByHours(int n) -- to +/- N hours from the given time. 11:15pm + 2hours is 1:15a (rolls over)
 
+  SFInterval operator-(const SFTime &other) const; //determine interval bewteen two times...
+  SFInterval operator-(const SFDateTime &other) const; //determine interval bewteen two objects...
+
   int   getHour()
   int   getMinutes()
   int   getSeconds()  
 
-  SFTime& startOfDay(); (00:00:00)
-  SFTime& endOfDay();   (23:59:59)
+  SFTime& startOfDay(); change time to (00:00:00)
+  SFTime& endOfDay();   change time to (23:59:59)
   
   std::string toTimeString();  //Returns string of the form HH:MM:SS
 
@@ -140,10 +144,10 @@ class SFDateTime {
   SFDateTime(const char* aString, SFTimezone *aTimezone=nullptr); //parse the given string of the form "MM/DD/YYYY HH:MM:SS"
   SFDateTime(const SFDate &aDate, const SFTime &aTime, SFTimezone *aTimezone=nullptr); 
              
-  Interval operator-(const SFDateTime& aCopy); //returns Interval object (difference between two DateTime objects)
+  SFInterval operator-(const SFDateTime &other) const; //determine interval bewteen two objects...
              
-  SFTimezone&  getTimezone();
-  SFDateTime&  setTimezone(SFTimezone &aTimezone);
+  SFTimezone&  getTimezone(); //retrieve timezone currently associated with this object
+  SFDateTime&  setTimezone(SFTimezone &aTimezone); //change timezone
 
     //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
 
@@ -152,7 +156,7 @@ class SFDateTime {
   operator SFTime();
   operator SFTimezone();             
              
-  std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST 
+  std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST (always this format)
              
   ... more members here as necessary...
 
@@ -161,7 +165,7 @@ class SFDateTime {
 
 #### The SFTimezone Class 
 
-Timezones can be tricky, so we're keeping the requirements to a minimum. The baseline timezone for your solution is "GMT" -- which refers to Greenwich Mean Time, clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.
+Timezones can be tricky, so we're keeping the requirements to a minimum. The baseline timezone for your solution is "GMT" -- which refers to Greenwich Mean Time, clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time. It isn't a requirement, but you might consider making singletons for each timezone.
 
 Although there a more than 20 _actual_ timezones, we will only ever ask you to support four, using an abbreviation:
 
@@ -174,10 +178,10 @@ Your timezone class must support default construction, copy construction, and co
 
 ```
 class SFTimezone {
-  SFTimezone(const char* aTimezoneAbbrev);
+  SFTimezone(const char* aTimezoneAbbrev); //GMT, EST, CST, PST
   SFTimezone(const SFTimezone &aTimezone);
   
-  operator const char*(); // Returns the 3 letter abbreviation of the timezone
+  operator const char*(); // Returns the 3 letter abbreviation of the timezone object
   
   ...other members as needed...
 };
@@ -203,18 +207,37 @@ class SFInterval {
 
 ### The Testing Interface
 
-In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. Once you turn in your work, Vlad-the-compiler will use your testing harness to perform operations that we can use to grade your work.  
+In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. You MUST make sure that your test harness tests EVERY method on EACH of your classes. Some of the tests you write will require that more that one type of object is used in the test, like getting the interval bewteen a SFDate and an SFDateTime, or setting a SFDateTime timezone by passing a SFTimezone object.
 
-The testing harness looks like this, and writing the actual test code is left as an exercise for the reader.  Vlad-the-compiler will use his _own_ version of the test harness.
+The testing harness looks like this, and writing the actual test code is left as an exercise for the reader.  Vlad-the-compiler will use his _own_ test harness.
 
 ```
 class SFTestHarness {
 public:
-  static int runDateTests();
-  static int runTimeTests();
-  static int runDateTimeTests();
-  static int runIntervalTests();
-  static int runTimezoneTests();
+  static int runDateTests() {
+    //test all your constructors; can you make one from a time string?
+    //test all your date methods...
+  }
+  
+  static int runTimeTests() {
+    //test all your constructors
+    //test all your time methods...
+  }
+
+static int runDateTimeTests() {
+    //test all your constructors; can you make one from a date-time string (e.g. Jan 4, 1961 07:15:23 (PST))
+    //test all your datetime methods...
+  }
+  
+  static int runIntervalTests() {
+    //compute interval between dates, dates and datetimes, times, etc...
+  }
+ 
+  static int runTimezoneTests() {
+    //make a datetime in timezoneA, convert to timezoneB, then convert back to timezoneA. Did it convert correctly?
+    //other tests as necessary
+  }
+  
   static int runAllTests() {
     runDateTests();
     runTimeTests();
@@ -227,4 +250,4 @@ public:
 
 ### Submitting Your Assignment
 
-more details here...
+As usual
