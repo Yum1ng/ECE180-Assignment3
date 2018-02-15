@@ -21,7 +21,7 @@ Chloe divides the teams up into smaller groups. You get assigned to the team who
 
 ## Assignment Details
 
-In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customers of your solution will use your solution to do things like creating timers in their own code, or handling timezone conversions within their application. All of your classes will be declared within a namespace called "SoftwareFoundations".
+In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Your solution will be used to do things like creating timers in application code, or handling timezone conversions. All of your classes will be declared within a namespace called "SoftwareFoundations".
 
 At a minimum, you will implement five classes:
 
