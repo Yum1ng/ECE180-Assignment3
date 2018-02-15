@@ -248,6 +248,39 @@ static int runDateTimeTests() {
 };
 ```
 
-### Submitting Your Assignment
 
-As usual
+## Code Style Guide
+
+This isn’t your first class on software or programming, and you’re probably wondering how we expect your code to be structured and formatted.  From the perspective of our auto-grader, structure and format are completely irrelevant. However, your instructors also will be viewing your code as well, so you would be wise to adhere to a few rules of thumb. 
+
+### Format and Clarity
+
+Your code should be formatted to be easily readable by anyone with more than 1 year of programming experience.  Here are some guidelines for things that matter:
+
+- Avoid dense and complicated code
+- Be consistent!  Choose a coding standard for yourself and stick with it
+- Partition your logic into class methods as needed to maintain clarity
+- Document your code with comments that clearly indicate what you’re doing at a high level
+
+Unsure if you’ve got it right?  Take a look at sample code in your textbook. Look at C++ code examples from github. Ask a friend to take a look. Most of all, use your judgement to estimate whether others can make sense of what you’re doing.  We’re being intentionally vague, so you get to learn what works and what doesn’t. 
+
+## Submitting Your Work
+
+You’ll recall that your work is due by 11:15pm (PST).  We strongly recommend that you aim for 6p (PST) as to avoid the last minute mishaps that frequently occur when panic related to an impending deliverable begins, and we all tend to make silly mistakes.  
+
+As we’ve said in lecture, you will turn your work in using github. Github is an online code repository.  Managing code can be very confusing, but github makes the process fairly easy. And the way we’re going to handle code in this class is even simpler still.  More on that later.
+
+With that said, please understand that when you submit your work via github, your changes are automatically timestamped. Meta data in the code repository makes it plainly obvious to humans and computers alike when your submission arrived.  This is worth mentioning, because the github timestamps on your submissions will be used to to arbitrate whether you turned your work in on time or not. 
+
+Your homework will usually be auto-graded by “Vlad the Compiler” — otherwise known as our software-based auto-grader.  Vlad can be a bit harsh when it comes to scoring homework (see the syllabus), but he does have a somewhat casual relationship with deadlines.  During Grad-school, Vlad often spent spring-break in Cabo-San-Lucas where he learned to enjoy siestas.  Most nights, Vlad awakens from his last-afternoon siesta around midnight, to begin the process of grading your assignments. In other words, you can generally count on a 45 minute grace period for turning in your work. We strongly suggest that you do not try his patience.
+
+## Caveats and Warnings
+
+When you work on your assignments, many of you will create an IDE-based project. IDE’s will likely speed up your process, and give you additional tools, like an integrated debugger. 
+
+It is important to note that Vlad-the-Compiler doesn’t use IDE projects. He uses makefiles to test and grade your homework.  Each of your assignments will include a makefile for this purpose. We strongly recommend that before you turn in your assignments, you attempt to build and run your code using this makefile.  
+
+The files we provide for you by default in your assignment project folders will compile with the given makefile. They just won’t do much, until you add your own code to the solution. In general, you can feel free to change the files we provide you, and to add new files as necessary to solve the assigned problems. Note, however, that some of the files we provide for you have portions that are marked "DO NOT CHANGE".  We ask that you follow that advice carefully.
+
+NOTE: It is **YOUR RESPONSIBILITY** to ensure your solution can be built correctly by the **make** command.
+
