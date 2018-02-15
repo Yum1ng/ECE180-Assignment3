@@ -13,6 +13,12 @@ IPO! WOOT WOOT!  It's very exciting when your cool little startup grows up, and 
 
 "Ok everyone, settle down", Chloe says, smiling softly. "As you've all heard, JobCo is going public...", she begins, then stops abruptly as the room explodes into cheers and shouting. Waiting for nearly a minute, she finally continues, "Ok, ok, before you all rush out and buy yourself a Tesla, we have some work to do." 
 
+"For starters", says Chloe, "we have to get all our internal records into order". She continues, "That means we have to clean up all the information in the databases. As you know, we have had operations in California and in Paris. And they each tracked time using their local time, rather than a standard universal time like GMT."  She shrugs. "So", she continues, "it's up to us to fix all that."
+
+Chloe divides the teams up into smaller groups. You get assigned to the team who has to build some time-related classes that the project can use to fix the all the times. You're going to have to be able to deal with times, dates, timezones and intervals. Most importantly, you'll have to be able to convert dates from London, New York and other locations to California time (PST), and back again. 
+
+"Oh", said Chloe, one more thing."  You wince waiting for more bad news.  "We're on a VERY short timeline here."
+
 ## Assignment Details
 
 In this assignment, you are going to build a series of classes that support calendrical computations. Dates, times, timezones, and intervals. Customer of your solution will use your classes to do things like creating timers in their own code, or performing timezone conversions within their application. All of your classes will be declared within a namespace called "SoftwareFoundations".
@@ -209,7 +215,7 @@ public:
   static int runDateTimeTests();
   static int runIntervalTests();
   static int runTimezoneTests();
-  static int runTests() {
+  static int runAllTests() {
     runDateTests();
     runTimeTests();
     runDateTimeTests();
