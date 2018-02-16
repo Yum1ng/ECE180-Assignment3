@@ -79,7 +79,7 @@ class SFDate {
   
   int   getWeekOfYear() //if date is 01/10/2018, the week of year is 2 (range is 1..52)
   int   getDayOfYear()  //if date is 01/04/1961, the day of year is 4 (range is 1..365)
-  in    getDayOfweek()  //range (0..6 -- 0==sunday) 
+  int   getDayOfweek()  //range (0..6 -- 0==sunday) 
   int   daysInMonth()   //based on month/year, return # of days in the month 
   
   SFDate& startOfMonth(); //if date is 12/15/2018, return 12/01/2018 
