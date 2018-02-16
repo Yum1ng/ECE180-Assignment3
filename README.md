@@ -144,7 +144,7 @@ class SFDateTime {
   SFDateTime(const char* aString, SFTimezone *aTimezone=nullptr); //parse the given string of the form "MM/DD/YYYY HH:MM:SS"
   SFDateTime(const SFDate &aDate, const SFTime &aTime, SFTimezone *aTimezone=nullptr); 
              
-  SFInterval operator-(const SFDateTime &other) const; //determine interval bewteen two objects...
+  SFInterval operator-(const SFDateTime &other) const; //determine interval between two objects...
              
   SFTimezone&  getTimezone(); //retrieve timezone currently associated with this object
   SFDateTime&  setTimezone(SFTimezone &aTimezone); //change timezone
@@ -207,7 +207,7 @@ class SFInterval {
 
 ### The Testing Interface
 
-In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. You MUST make sure that your test harness tests EVERY method on EACH of your major classes `SFDate`, `SFTime`, `SFDateTime`, `SFTimezone`, and `SFInterval`. Some of the tests you write will require that more that one type of object is used in the test, like getting the interval bewteen a SFDate and an SFDateTime, or setting a SFDateTime timezone by passing a SFTimezone object.
+In our last assignment, we provided you with a specific class interface. In this assignment, the interface is up to you. Instead, we are providing you with a "boilerplate" test-harness that you'll use to test your implementation. You MUST make sure that your test harness tests EVERY method on EACH of your major classes `SFDate`, `SFTime`, `SFDateTime`, `SFTimezone`, and `SFInterval`. Some of the tests you write will require that more that one type of object is used in the test, like getting the interval between a SFDate and an SFDateTime, or setting a SFDateTime timezone by passing a SFTimezone object.
 
 The testing harness looks like this, and writing the actual test code is left as an exercise for the reader.  Vlad-the-compiler will use his _own_ test harness.
 
