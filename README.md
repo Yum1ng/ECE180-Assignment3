@@ -225,7 +225,7 @@ public:
   }
 
 static int runDateTimeTests() {
-    //test all your constructors; can you make one from a date-time string (e.g. Jan 4, 1961 07:15:23 (PST))
+    //test all your constructors; can you make one from a date-time string "02/15/2018 09:15:25"?
     //test all your datetime methods...
   }
   
