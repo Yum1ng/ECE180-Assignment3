@@ -119,13 +119,35 @@ std::string SFTestHarness::dataTimeDifferenceTest(std::string aDateTime1, std::s
 }
 
 /*
- * Return string representation of date-time given
+ * Return string representation of given date-time
  * Ex. aDateTime = "02/15/2018 09:05:15"
  *     aTimeZone = "PST"
  * Returns : "Feb 15, 2018 09:05:15 PST"
  */
-std::string SFTestHarness::dataTimeToStringTest(std::string aDateTime, std::string timeZone) {
+std::string SFTestHarness::dataTimeToStringTest(std::string aDateTime, std::string timezone) {
   return 0;
+}
+
+/*
+ * Return string representation of given GMT date-time converted to given timezone
+ * Ex. aDateTime = "02/15/2018 09:05:15"
+ *     aTimeZone = "PST"
+ * Returns : "Feb 15, 2018 01:05:15 PST"
+ */
+std::string SFTestHarness::timezoneConversionDateTimeTest(std::string aDateTime, std::string timezone) {
+  return 0;
+}
+
+/*
+ * Return true if aDateTime1 is stricty greater than aDateTime2
+ * Ex. aDateTime1 = "02/15/2018 09:05:15"
+ *     aTimeZone1 = "PST"
+ *     aDateTime2 = "02/15/2018 11:05:15"
+ *     aTimeZone2 = "EST"
+ * Returns : true
+ */
+bool SFTestHarness::greaterThanDateTimeTest(std::string aDateTime1, std::string aTimezone1, std::string aDateTime2, std::string aTimezone2) {
+  return false;
 }
 
 int SFTestHarness::runAllTests() {
