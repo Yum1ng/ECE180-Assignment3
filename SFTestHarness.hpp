@@ -29,7 +29,9 @@ namespace SoftwareFoundations {
     static std::string adjustTimeByMinutesTest(std::string aTime1, int aMinutes);
     static int getMinutesTimeTest(std::string aTime);
     static std::string dataTimeDifferenceTest(std::string aDateTime1, std::string aTimezone1, std::string aDateTime2, std::string aTimezone2);
-    static std::string dataTimeToStringTest(std::string aDateTime, std::string timeZone);
+    static std::string dataTimeToStringTest(std::string aDateTime, std::string timezone);
+    static std::string timezoneConversionDateTimeTest(std::string aDateTime, std::string timezone);
+    static bool greaterThanDateTimeTest(std::string aDateTime1, std::string aTimezone1, std::string aDateTime2, std::string aTimezone2);
   };
   
 }
