@@ -104,8 +104,15 @@ SFTime& SFTime::adjustByHours(int n){
 
 
 /*
-SFInterval SFTime::operator-(const SFTime &other) const; //determine interval between two times...
-SFInterval SFTime::operator-(const SFDateTime &other) const; //determine interval between two objects...
+SFInterval SFTime::operator-(const SFTime &other) const{
+  SFInterval res = SFInterval();
+  //res.hours =
+  return res;
+  
+} //determine interval between two times...
+SFInterval SFTime::operator-(const SFDateTime &other) const{
+  
+} //determine interval between two objects...
 */
 
 

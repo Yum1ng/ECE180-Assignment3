@@ -21,6 +21,7 @@ class SFDateTime;
 class SFInterval;
 
 class SFDate {
+public:
   SFDate();                             //default to today, in GMT timezone
   SFDate(const char *aDateTimeString);  //must parse the given string of the form MM/DD/YYYY
   SFDate(int month, int day, int year); //build date from individual parts
@@ -62,7 +63,7 @@ class SFDate {
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
   
   //... other members here as necessary...
-private:
+protected:
   int day;
   int month;
   int year;

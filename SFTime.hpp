@@ -14,9 +14,10 @@
 #include "SFDate.hpp"
 //#include "SFTimezone.hpp"
 //#include "SFInterval.hpp"
-#include "SFDateTime.hpp"
+//#include "SFDateTime.hpp"
 
 class SFTime {
+public:
   SFTime();                             //default to now(HH:MM:SS)
   SFTime(const char *aTimeString);      //must parse the given string of the form "HH:MM:SS"
   SFTime(int anHour, int aMinutes, int aSeconds); //build time from individual parts
@@ -41,7 +42,7 @@ class SFTime {
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
   
   //... more members here as necessary...
-private:
+protected:
   int hour = 0;
   int min = 0;
   int sec = 0;

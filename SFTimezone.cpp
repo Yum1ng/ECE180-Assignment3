@@ -7,3 +7,47 @@
 //
 
 #include "SFTimezone.hpp"
+
+SFTimezone::SFTimezone(){
+  zone = "GMT";
+  offset = 0;
+}
+
+SFTimezone::SFTimezone(const char* aTimezoneAbbrev){
+  if(strcmp("GMT", aTimezoneAbbrev) == 0){
+    zone = "GMT";
+    offset = 0;
+  }
+  else if(strcmp("EST", aTimezoneAbbrev) == 0){
+    zone = "EST";
+    offset = -5;
+  }
+  else if(strcmp("CST", aTimezoneAbbrev) == 0){
+    zone = "CST";
+    offset = -6;
+  }
+  else if(strcmp("PST", aTimezoneAbbrev) == 0){
+    zone = "PST";
+    offset = -8;
+  }
+  else{
+    std::cout<<"not support time zone"<<std::endl;
+    exit(2);
+  }
+  
+}
+
+SFTimezone::SFTimezone(const SFTimezone &aTimezone){
+  zone = aTimezone.zone;
+  offset = aTimezone.offset;
+}
+
+
+int SFTimezone::get_offset(){
+  return offset;
+}
+
+
+SFTimezone::operator const char*(){
+  return zone.c_str();
+}

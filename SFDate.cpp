@@ -10,6 +10,8 @@
 #include <time.h>
 #include <math.h>
 
+class SFDateTime;
+
 SFDate::SFDate(){
   time_t rawtime;
   struct tm * ptm;
@@ -56,7 +58,11 @@ SFDate::SFDate(const SFDate &aCopy){
 
 
 SFDate::SFDate(const SFDateTime &aCopy){
-  //TODO
+  /*
+  this->day = aCopy.getDay();
+  this->month = aCopy.getMonth();
+  this->year = aCopy.getYear();
+   */
 }
 
 
@@ -192,6 +198,11 @@ SFDate& SFDate::adjustByMonths(int n){
     if(month == 0){
       month = 12;
     }
+  }
+  int day_offset = day - daysInMonth(); // in case the date like 2/30 is invalid
+  if(day_offset != 0){
+    month++;
+    day = day_offset;
   }
   return *this;
 } //-- to add or subtract N months from the given date

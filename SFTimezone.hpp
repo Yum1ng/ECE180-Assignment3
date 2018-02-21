@@ -10,14 +10,25 @@
 #define SFTimezone_hpp
 
 #include <stdio.h>
-
+#include <iostream>
 class SFTimezone {
+public:
+  SFTimezone();
   SFTimezone(const char* aTimezoneAbbrev); //GMT, EST, CST, PST
   SFTimezone(const SFTimezone &aTimezone);
-  
+  int get_offset();
   operator const char*(); // Returns the 3 letter abbreviation of the timezone object
   
   //...other members as needed...
+  /*
+  GMT (GMT as described above)
+  EST (US Eastern standard time)
+  CST (US Central standard time)
+  PST (US Pacific standard time)
+   */
+private:
+  std::string zone;
+  int offset;
 };
 
 #endif /* SFTimezone_hpp */

@@ -10,12 +10,13 @@
 #define SFDateTime_hpp
 
 #include <stdio.h>
-#include "SFDate.hpp"
+#include <iostream>
+
+#include "SFTime.hpp"
 #include "SFTimezone.hpp"
 #include "SFInterval.hpp"
 
-class SFTime;
-class SFDateTime {
+class SFDateTime: public SFDate, public SFTime {
   
   SFDateTime(SFTimezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
   SFDateTime(const SFDateTime &aCopy); //copy construct
@@ -32,14 +33,23 @@ class SFDateTime {
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
   
   operator const char*();   //Returns string of the form "MON DATE, YEAR HH:MM:SS TIMEZONE" Ex. Jan 4, 1961 09:15:00 PST
-  //operator SFDate();
-  //operator SFTime();
+  operator SFDate();
+  operator SFTime();
   operator SFTimezone();
   
   std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST (always this format)
   
   //... more members here as necessary...
-  
+private:
+  /*
+  int day;
+  int month;
+  int year;
+  int hour;
+  int min;
+  int sec;
+   */
+  int zone_offset;
 };
 
 #endif /* SFDateTime_hpp */

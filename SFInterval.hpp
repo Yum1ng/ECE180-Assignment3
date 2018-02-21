@@ -10,8 +10,11 @@
 #define SFInterval_hpp
 
 #include <stdio.h>
+#include <iostream>
 
 class SFInterval {
+public:
+  SFInterval();
   int years;
   int months;
   int days;
