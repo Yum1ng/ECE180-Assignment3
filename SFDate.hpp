@@ -12,13 +12,10 @@
 #include <iostream>
 #include <stdio.h>
 
-//#include "SFDateTime.hpp"
-//#include "SFTime.hpp"
-//#include "SFTimezone.hpp"
-//#include "SFInterval.hpp"
+#include "SFInterval.hpp"
 
 class SFDateTime;
-class SFInterval;
+//class SFInterval;
 
 class SFDate {
 public:
@@ -43,14 +40,14 @@ public:
   SFDate& setMonth(int aMonth);  //set the current month of the given date object aMonth must be in valid range
   SFDate& setYear(int aYear);    //set the current year; must be in valid range
   
-  int   getDay();    //if date is 12/15/2018, the day is the 15th
-  int   getMonth();  //if date is 12/15/2018, the month is 12 (dec)
-  int   getYear();   //if date is 12/15/2018, the year is 2018
+  int   getDay() const;    //if date is 12/15/2018, the day is the 15th
+  int   getMonth() const;  //if date is 12/15/2018, the month is 12 (dec)
+  int   getYear() const;   //if date is 12/15/2018, the year is 2018
   
-  int   getWeekOfYear(); //if date is 01/10/2018, the week of year is 2 (range is 1..52)
-  int   getDayOfYear();  //if date is 01/04/1961, the day of year is 4 (range is 1..365)
-  int   getDayOfweek();  //range (0..6 -- 0==sunday)
-  int   daysInMonth();   //based on month/year, return # of days in the month
+  int   getWeekOfYear() const; //if date is 01/10/2018, the week of year is 2 (range is 1..52)
+  int   getDayOfYear() const;  //if date is 01/04/1961, the day of year is 4 (range is 1..365)
+  int   getDayOfweek() const;  //range (0..6 -- 0==sunday)
+  int   daysInMonth() const;   //based on month/year, return # of days in the month
   
   SFDate& startOfMonth(); //if date is 12/15/2018, return 12/01/2018
   SFDate& endOfMonth();   //if date is 12/15/2018, return 12/31/2018
@@ -59,16 +56,20 @@ public:
   SFDate& endOfYear();    //if date is 12/15/2018, return 12/31/2018
   
   std::string toDateString();  //Return a string of the form MM/DD/YYYY
-
+  std::string toEnglishDateString();
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
-  
+  bool operator >(SFDate & other) const;
+  bool operator ==(SFDate & other) const;
+  bool operator <(SFDate & other) const;
   //... other members here as necessary...
 protected:
   int day;
   int month;
   int year;
   //int index; //
-  int daysInMonth(int month_number);
+  int daysInMonth(int month_number) const;
+  std::string month_to_abrev(int m);
+  bool ahead(const SFDate & other) const;
 };
 
 #endif /* SFDate_hpp */

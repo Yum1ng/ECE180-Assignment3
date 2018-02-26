@@ -11,10 +11,10 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "SFDate.hpp"
-//#include "SFTimezone.hpp"
-//#include "SFInterval.hpp"
-//#include "SFDateTime.hpp"
+
+#include "SFInterval.hpp"
+
+class SFDateTime;
 
 class SFTime {
 public:

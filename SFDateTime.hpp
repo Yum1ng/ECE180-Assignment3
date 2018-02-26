@@ -13,11 +13,11 @@
 #include <iostream>
 
 #include "SFTime.hpp"
+#include "SFDate.hpp"
 #include "SFTimezone.hpp"
-#include "SFInterval.hpp"
 
 class SFDateTime: public SFDate, public SFTime {
-  
+public:
   SFDateTime(SFTimezone *aTimezone=nullptr); //init a new datetime based on GMT, unless a valid timezone is provided
   SFDateTime(const SFDateTime &aCopy); //copy construct
   SFDateTime(int aMonth, int aDay, int aYear, int anHour=0, int aMinutes=0, int aSeconds=0, SFTimezone *aTimezone=nullptr);
@@ -50,6 +50,7 @@ private:
   int sec;
    */
   int zone_offset;
+  std::string zone;
 };
 
 #endif /* SFDateTime_hpp */

@@ -16,10 +16,14 @@ SFInterval::SFInterval(){
   hours = 0;
   minutes = 0;
   seconds = 0;
+  positive = true;
 }
 
 SFInterval::operator const char*(){
   std::string res;
+  if(positive == false){
+    res.append("-");
+  }
   res.append(std::to_string(years));
   res.append(" years, ");
   res.append(std::to_string(months));

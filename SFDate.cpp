@@ -10,8 +10,6 @@
 #include <time.h>
 #include <math.h>
 
-class SFDateTime;
-
 SFDate::SFDate(){
   time_t rawtime;
   struct tm * ptm;
@@ -62,7 +60,7 @@ SFDate::SFDate(const SFDateTime &aCopy){
   this->day = aCopy.getDay();
   this->month = aCopy.getMonth();
   this->year = aCopy.getYear();
-   */
+  */
 }
 
 
@@ -102,14 +100,106 @@ bool SFDate::operator --(){
 }
 
 
-/*
-SFInterval SFDate::operator-(const SFDate &other) const{
+SFInterval SFDate::operator -(const SFDate &other) const{
+  SFInterval * res;
+  res = new SFInterval();
+  res->hours = 0;
+  res->minutes = 0;
+  res->seconds = 0;
+  int offset_day = 0;
+  int offset_month = 0;
+  int offset_year = 0;
+  // this: 2019/9/21, other: 2016/8/20
+  if(this->ahead(other)){
+    res->positive = false;
+    if(month == other.getMonth()){
+      if(day < other.getDay()){
+        offset_day = day + other.daysInMonth()-other.getDay();
+        offset_month = 11;
+        offset_year = year - other.getYear()-1;
+      }
+      else{
+        offset_day = day - other.getDay();
+        offset_month = 0;
+        offset_year = year - other.getYear();
+      }
+    }
+    else{
+      if(day > other.getDay()){
+        offset_day = day - other.getDay();
+        if(month > other.getMonth()){
+          offset_month = month - other.getMonth();
+          offset_year = year - other.getYear();
+        }
+        else{
+          offset_month = month + 12 - other.getMonth();
+          offset_year =year - other.getYear() - 1;
+        }
+      }
+      else{
+        offset_day = day + other.daysInMonth() - other.getDay();
+        if(month > other.getMonth()){
+          offset_month = month - other.getMonth()-1;
+          offset_year = year - other.getYear();
+        }
+        else{
+          offset_month = month + 12 - other.getMonth()-1;
+          offset_year = year - other.getYear() - 1;
+        }
+      }
+    }
+  }
+  // this: 2016/8/20, other: 2019/9/21
+  else{
+    res->positive = true;
+    if(month == other.getMonth()){
+      if(day > other.getDay()){
+        offset_day = other.getDay() + daysInMonth() - day;
+        offset_month = 11;
+        offset_year = other.getYear() - year - 1;
+      }
+      else{
+        offset_day = other.getDay() - day;
+        offset_month = 0;
+        offset_year = other.year - year;
+      }
+    }
+    else{
+      if(day < other.getDay()){
+        offset_day = other.getDay() - day;
+        if(month < other.getMonth()){
+          offset_month = other.getMonth() - month;
+          offset_year = other.getYear() - year;
+        }
+        else{
+          offset_month = other.getMonth() + 12 - month;
+          offset_year = other.getYear() - year - 1;
+        }
+      }
+      else{
+        offset_day = other.getDay() + daysInMonth() - day;
+        if(month < other.getMonth()){
+          offset_month = other.getMonth() - month - 1;
+          offset_year = other.getYear() - year;
+        }
+        else{
+          offset_month = other.getMonth() + 12 - month - 1;
+          offset_year = other.getYear() - year - 1;
+        }
+      }
+    }
+  }
+  res->days = offset_day;
+  res->months = offset_month;
+  res->years = offset_year;
+  return *res;
   
 } //determine interval between two dates...
+/*
 SFInterval SFDate::operator-(const SFDateTime &other) const{
   
-} //determine interval between two objects...
- */
+}*/ //determine interval between two objects...
+
 
 SFDate& SFDate::adjustByDays(int n){
   while(n > 0){
@@ -244,26 +334,26 @@ SFDate& SFDate::setYear(int aYear){
 }   //set the current year; must be in valid range
 
 
-int SFDate::getDay(){
+int SFDate::getDay() const{
   return this->day;
 }//if date is 12/15/2018, the day is the 15th
 
 
-int SFDate::getMonth(){
+int SFDate::getMonth() const{
   return this->month;
 }  //if date is 12/15/2018, the month is 12 (dec)
 
 
-int SFDate::getYear(){
+int SFDate::getYear() const{
   return this->year;
 }   //if date is 12/15/2018, the year is 2018
 
-int SFDate::getWeekOfYear(){
+int SFDate::getWeekOfYear() const{
   return ceil(getDayOfYear()/7);
 } //if date is 01/10/2018, the week of year is 2 (range is 1..52)
 
 
-int SFDate::getDayOfYear(){
+int SFDate::getDayOfYear() const{
   int res = 0;
   for(int i = 1; i < month; i++){
     res += daysInMonth(i);
@@ -274,7 +364,7 @@ int SFDate::getDayOfYear(){
 
 
 
-int SFDate::getDayOfweek(){
+int SFDate::getDayOfweek() const{
   time_t rawtime;
   struct tm * timeinfo;
   /*
@@ -294,12 +384,12 @@ int SFDate::getDayOfweek(){
 }  //range (0..6 -- 0==sunday)
 
 
-int SFDate::daysInMonth(){
+int SFDate::daysInMonth() const{
   return daysInMonth(month);
 }
 
 
-int SFDate::daysInMonth(int month_number){
+int SFDate::daysInMonth(int month_number) const{
   if(month_number == 1){
     return 31;
   }
@@ -346,4 +436,127 @@ int SFDate::daysInMonth(int month_number){
   }
 }
 
+SFDate& SFDate::startOfMonth(){
+  day = 1;
+  return *this;
+} //if date is 12/15/2018, return 12/01/2018
+
+SFDate& SFDate::endOfMonth(){
+  day = daysInMonth();
+  return *this;
+}   //if date is 12/15/2018, return 12/31/2018
+
+SFDate& SFDate::startOfYear(){
+  day = 1;
+  month = 1;
+  return *this;
+}  //if date is 12/15/2018, return 01/01/2018
+
+SFDate& SFDate::endOfYear(){
+  day = 31;
+  month = 12;
+  return *this;
+}    //if date is 12/15/2018, return 12/31/2018
+
+std::string SFDate::toDateString(){
+  std::string res;
+  if(day < 10){
+    res.append(std::to_string(0));
+  }
+  res.append(std::to_string(day));
+  res.append("/");
+  if(month < 10){
+    res.append(std::to_string(0));
+  }
+  res.append(std::to_string(month));
+  res.append("/");
+
+  res.append(std::to_string(year));
+  return res;
+
+}  //Returns string of the form MM/DD/YYYY
+
+
+//Returns string of the form Jan 4, 1961
+std::string SFDate::toEnglishDateString(){
+  std::string res;
+  res.append(month_to_abrev(month));
+  res.append(" ");
+  res.append(std::to_string(day));
+  res.append(", ");
+  res.append(std::to_string(year));
+  return res;
+}
+
+std::string SFDate::month_to_abrev(int m){
+  switch (m) {
+    case 1:
+      return "Jan";
+      break;
+    case 2:
+      return "Feb";
+      break;
+    case 3:
+      return "Mar";
+      break;
+    case 4:
+      return "Apr";
+      break;
+    case 5:
+      return "May";
+      break;
+    case 6:
+      return "Jun";
+      break;
+    case 7:
+      return "Jul";
+      break;
+    case 8:
+      return "Aug";
+      break;
+    case 9:
+      return "Sep";
+      break;
+    case 10:
+      return "Oct";
+      break;
+    case 11:
+      return "Nov";
+      break;
+    case 12:
+      return "Dec";
+      break;
+    default:
+      break;
+  }
+  return "NAN";
+}
+
+bool SFDate::operator >(SFDate & other) const{
+  if(year > other.getYear()) return true;
+  if(year == other.getYear() && month > other.getMonth()) return true;
+  if(year == other.getYear() && month == other.getMonth() && day > other.getDay()) return true;
+  return false;
+}
+
+bool SFDate::operator ==(SFDate & other) const{
+  if(day == other.getDay() && month == other.getMonth() && year == other.getYear()){
+    return true;
+  }
+  else return false;
+}
+
+bool SFDate::operator <(SFDate & other) const{
+  if(year < other.getYear()) return true;
+  if(year == other.getYear() && month < other.getMonth()) return true;
+  if(year == other.getYear() && month == other.getMonth() && day < other.getDay()) return true;
+  return false;
+}
+
+bool SFDate::ahead(const SFDate & other) const{
+  if(year > other.getYear()) return true;
+  if(year == other.getYear() && month > other.getMonth()) return true;
+  if(year == other.getYear() && month == other.getMonth() && day > other.getDay()) return true;
+  return false;
+}
 

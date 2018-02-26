@@ -7,11 +7,12 @@
 //
 
 #include <stdio.h>
-#include "SFDate.hpp"
+//#include "SFDate.hpp"
+#include "SFDateTime.hpp"
 #include <time.h>
 int main(int argc, const char * argv[]) {
 
-  
+  /*
   time_t rawtime;
   struct tm * timeinfo;
   int year, month ,day;
@@ -19,22 +20,35 @@ int main(int argc, const char * argv[]) {
     "Tuesday", "Wednesday",
     "Thursday", "Friday", "Saturday"};
   
-  /* prompt user for date */
+
   printf ("Enter year: "); fflush(stdout); scanf ("%d",&year);
   printf ("Enter month: "); fflush(stdout); scanf ("%d",&month);
   printf ("Enter day: "); fflush(stdout); scanf ("%d",&day);
   
-  /* get current timeinfo and modify it to the user's choice */
+ 
   time ( &rawtime );
   timeinfo = gmtime ( &rawtime );
   timeinfo->tm_year = year - 1900;
   timeinfo->tm_mon = month - 1;
   timeinfo->tm_mday = day;
   
-  /* call mktime: timeinfo->tm_wday will be set */
+  
   mktime ( timeinfo );
   
   printf ("That day is a %s.\n", weekday[timeinfo->tm_wday]);
+  */
+  
+  SFDate sfd1 = SFDate(8, 20, 2016);
+  SFDate sfd2 = SFDate(9, 21, 2019);
+  SFInterval interval1 = sfd1 - sfd2;
+  std::cout<<"interval result: "<<(const char*)interval1<<std::endl;
+  
+  /*
+  SFDateTime sfdt1 = SFDateTime(8, 20, 2016);
+  SFDateTime sfdt2 = SFDateTime(9, 21, 2019);
+  SFInterval interval2 = sfdt1 - sfdt2;
+  std::cout<<"interval result: "<<(const char*)interval<<std::endl;
+  */
   return 0;
   
 }
