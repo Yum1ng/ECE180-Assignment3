@@ -51,11 +51,6 @@ SFTime::SFTime(const SFTime &aCopy){
 }
 
 
-SFTime::SFTime(const SFDateTime &aCopy){
-  // TODO
-}
-
-
 SFTime& SFTime::adjustByMinutes(int n){
   if(n > 0){
     adjustByHours(n/60);
@@ -98,22 +93,59 @@ SFTime& SFTime::adjustByMinutes(int n){
   
 SFTime& SFTime::adjustByHours(int n){
   hour += n;
-  hour %= 24;
+  if(hour > 24){
+    hour %= 24;
+  }
+  else if(hour < 0){
+    hour = 24 + hour%24;
+  }
   return *this;
 } //-- to +/- N hours from the given time. 11:15pm + 2hours is 1:15a (rolls over)
 
 
-/*
+
 SFInterval SFTime::operator-(const SFTime &other) const{
-  SFInterval res = SFInterval();
-  //res.hours =
-  return res;
+  SFInterval * res;
+  res = new SFInterval();
+  res->days = 0;
+  res->months = 0;
+  res->years = 0;
+  int sec_offset = 0;
+  int min_offset = 0;
+  int hour_offset = 0;
+  int temp_min = min;
+  int temp_hour = hour;
+  if(sec < other.sec){
+    sec_offset = sec+60-other.sec;
+    temp_min--;
+  }
+  else{
+    sec_offset = sec-other.sec;
+  }
+  if(temp_min < other.min){
+    min_offset = temp_min + 60 - other.min;
+    temp_hour--;
+  }
+  else{
+    min_offset = temp_min - other.min;
+  }
+  if(temp_hour < other.hour){
+    res->positive = true;
+    hour_offset = temp_hour + 24 - other.hour;
+  }
+  else{
+    res->positive = false;
+    hour_offset = temp_hour - other.hour;
+  }
+  res->hours = hour_offset;
+  res->minutes = min_offset;
+  res->seconds = sec_offset;
+  if(res->positive == true){
+    res->flip();
+  }
+  return *res;
   
 } //determine interval between two times...
-SFInterval SFTime::operator-(const SFDateTime &other) const{
-  
-} //determine interval between two objects...
-*/
 
 
 int SFTime::getHour(){
@@ -161,5 +193,34 @@ std::string SFTime::toTimeString(){
   
 }  //Returns string of the form HH:MM:SS
 
-//ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
+bool SFTime::operator >(SFTime & other) const{
+  if(hour > other.hour) return true;
+  if(hour == other.hour && min > other.min) return true;
+  if(hour == other.hour && min == other.min && sec > other.sec) return true;
+  return false;
+}
+
+bool SFTime::operator ==(SFTime & other) const{
+  return(hour == other.hour && min == other.min && sec == other.sec);
+}
+
+bool SFTime::operator !=(SFTime & other) const{
+  return !(*this==other);
+}
+
+bool SFTime::operator >=(SFTime & other) const{
+  return (*this==other || *this > other);
+}
+
+bool SFTime::operator <(SFTime & other) const{
+  if(hour < other.hour) return true;
+  if(hour == other.hour && min < other.min) return true;
+  if(hour == other.hour && min == other.min && sec < other.sec) return true;
+  return false;
+}
+
+bool SFTime::operator <=(SFTime & other) const{
+  return (*this==other || *this < other);
+}
+
 

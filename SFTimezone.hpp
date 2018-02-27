@@ -17,8 +17,11 @@ public:
   SFTimezone(const char* aTimezoneAbbrev); //GMT, EST, CST, PST
   SFTimezone(const SFTimezone &aTimezone);
   int get_offset();
+  std::string get_zone();
   operator const char*(); // Returns the 3 letter abbreviation of the timezone object
   
+  bool operator ==(SFTimezone & other) const;
+  bool operator !=(SFTimezone & other) const;
   //...other members as needed...
   /*
   GMT (GMT as described above)

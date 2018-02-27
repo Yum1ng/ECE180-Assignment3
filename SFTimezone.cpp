@@ -47,7 +47,18 @@ int SFTimezone::get_offset(){
   return offset;
 }
 
+std::string SFTimezone::get_zone(){
+  return zone;
+}
+
 
 SFTimezone::operator const char*(){
   return zone.c_str();
+}
+
+bool SFTimezone::operator ==(SFTimezone & other) const{
+  return (offset == other.get_offset() && (zone.compare(other.zone) == 0));
+}
+bool SFTimezone::operator !=(SFTimezone & other) const{
+  return !(*this == other);
 }

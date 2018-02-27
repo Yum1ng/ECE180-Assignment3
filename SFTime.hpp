@@ -38,6 +38,12 @@ public:
   SFTime& endOfDay();   //change time to (23:59:59)
   
   std::string toTimeString();  //Returns string of the form HH:MM:SS
+  bool operator >(SFTime & other) const;
+  bool operator ==(SFTime & other) const;
+  bool operator !=(SFTime & other) const;
+  bool operator <(SFTime & other) const;
+  bool operator >=(SFTime & other) const;
+  bool operator <=(SFTime & other) const;
   
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
   

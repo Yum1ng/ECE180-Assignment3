@@ -9,6 +9,7 @@
 #include "SFDate.hpp"
 #include <time.h>
 #include <math.h>
+#include <ctype.h>
 
 SFDate::SFDate(){
   time_t rawtime;
@@ -22,21 +23,40 @@ SFDate::SFDate(){
 
 
 //must parse the given string of the form MM/DD/YYYY, "02/15/2018"
+//"Jan 24, 1961 10:11:12"
 SFDate::SFDate(const char *aDateTimeString){
-  char month[3];
-  strncpy(month, aDateTimeString, 2);
-  month[2] = '\0';
-  this->month = atoi(month);
-  
-  char day[3];
-  strncpy(day, &aDateTimeString[3], 2);
-  day[2] = '\0';
-  this->day = atoi(day);
-  
-  char year[5];
-  strncpy(year, &aDateTimeString[6], 4);
-  year[4] = '\0';
-  this->year = atoi(year);
+  if(isdigit(aDateTimeString[0])){
+    char month[3];
+    strncpy(month, aDateTimeString, 2);
+    month[2] = '\0';
+    this->month = atoi(month);
+    
+    char day[3];
+    strncpy(day, &aDateTimeString[3], 2);
+    day[2] = '\0';
+    this->day = atoi(day);
+    
+    char year[5];
+    strncpy(year, &aDateTimeString[6], 4);
+    year[4] = '\0';
+    this->year = atoi(year);
+  }
+  else{
+    char month[4];
+    strncpy(month, aDateTimeString, 3);
+    month[3] = '\0';
+    this->month = get_month(month);
+    
+    char day[3];
+    strncpy(day, &aDateTimeString[4], 2);
+    day[2] = '\0';
+    this->day = atoi(day);
+    
+    char year[5];
+    strncpy(year, &aDateTimeString[8], 4);
+    year[4] = '\0';
+    this->year = atoi(year);
+  }
 }
 
 
@@ -52,15 +72,6 @@ SFDate::SFDate(const SFDate &aCopy){
   this->day = aCopy.day;
   this->month = aCopy.month;
   this->year = aCopy.year;
-}
-
-
-SFDate::SFDate(const SFDateTime &aCopy){
-  /*
-  this->day = aCopy.getDay();
-  this->month = aCopy.getMonth();
-  this->year = aCopy.getYear();
-  */
 }
 
 
@@ -195,10 +206,6 @@ SFInterval SFDate::operator -(const SFDate &other) const{
   return *res;
   
 } //determine interval between two dates...
-/*
-SFInterval SFDate::operator-(const SFDateTime &other) const{
-  
-}*/ //determine interval between two objects...
 
 
 SFDate& SFDate::adjustByDays(int n){
@@ -239,7 +246,7 @@ SFDate& SFDate::adjustByWeeks(int n){
   while(n > 0){
     day += 7;
     if(day > daysInMonth()){
-      int over = daysInMonth() - day;
+      int over = day - daysInMonth();
       if(month == 12){
         year++;
         month = 1;
@@ -290,7 +297,7 @@ SFDate& SFDate::adjustByMonths(int n){
     }
   }
   int day_offset = day - daysInMonth(); // in case the date like 2/30 is invalid
-  if(day_offset != 0){
+  if(day_offset > 0){
     month++;
     day = day_offset;
   }
@@ -300,6 +307,11 @@ SFDate& SFDate::adjustByMonths(int n){
 
 SFDate& SFDate::adjustByYears(int n){
   this->year += n;
+  int day_offset = day - daysInMonth(); // in case the date like 2/30 is invalid
+  if(day_offset > 0){
+    month++;
+    day = day_offset;
+  }
   return *this;
 } //-- to add or subtract N years from the given date
 
@@ -349,7 +361,13 @@ int SFDate::getYear() const{
 }   //if date is 12/15/2018, the year is 2018
 
 int SFDate::getWeekOfYear() const{
-  return ceil(getDayOfYear()/7);
+  SFDate temp = SFDate(1,1,year);
+  int first_day = temp.getDayOfweek();
+  int res = 1+getDayOfYear()/7;
+  if(first_day+(getDayOfYear()%7-1) >= 7){
+    res++;
+  }
+  return res;
 } //if date is 01/10/2018, the week of year is 2 (range is 1..52)
 
 
@@ -460,17 +478,16 @@ SFDate& SFDate::endOfYear(){
 
 std::string SFDate::toDateString(){
   std::string res;
-  if(day < 10){
-    res.append(std::to_string(0));
-  }
-  res.append(std::to_string(day));
-  res.append("/");
   if(month < 10){
     res.append(std::to_string(0));
   }
   res.append(std::to_string(month));
   res.append("/");
-
+  if(day < 10){
+    res.append(std::to_string(0));
+  }
+  res.append(std::to_string(day));
+  res.append("/");
   res.append(std::to_string(year));
   return res;
 
@@ -546,11 +563,26 @@ bool SFDate::operator ==(SFDate & other) const{
   else return false;
 }
 
+bool SFDate::operator !=(SFDate & other) const{
+  if(day != other.getDay() || month != other.getMonth() || year != other.getYear()){
+    return true;
+  }
+  else return false;
+}
+
 bool SFDate::operator <(SFDate & other) const{
   if(year < other.getYear()) return true;
   if(year == other.getYear() && month < other.getMonth()) return true;
   if(year == other.getYear() && month == other.getMonth() && day < other.getDay()) return true;
   return false;
+}
+
+bool SFDate::operator >=(SFDate & other) const{
+  return (*this>other || *this == other);
+}
+
+bool SFDate::operator <=(SFDate & other) const{
+  return (*this<other || *this == other);
 }
 
 bool SFDate::ahead(const SFDate & other) const{
@@ -559,4 +591,47 @@ bool SFDate::ahead(const SFDate & other) const{
   if(year == other.getYear() && month == other.getMonth() && day > other.getDay()) return true;
   return false;
 }
+
+int SFDate::get_month(char * mon){
+  if(strcmp(mon, "Jan") == 0){
+    return 1;
+  }
+  if(strcmp(mon, "Feb") == 0){
+    return 2;
+  }
+  if(strcmp(mon, "Mar") == 0){
+    return 3;
+  }
+  if(strcmp(mon, "Apr") == 0){
+    return 4;
+  }
+  if(strcmp(mon, "May") == 0){
+    return 5;
+  }
+  if(strcmp(mon, "Jun") == 0){
+    return 6;
+  }
+  if(strcmp(mon, "Jul") == 0){
+    return 7;
+  }
+  if(strcmp(mon, "Aug") == 0){
+    return 8;
+  }
+  if(strcmp(mon, "Sep") == 0){
+    return 9;
+  }
+  if(strcmp(mon, "Oct") == 0){
+    return 10;
+  }
+  if(strcmp(mon, "Nov") == 0){
+    return 11;
+  }
+  if(strcmp(mon, "Dec") == 0){
+    return 12;
+  }
+  std::cout<<"something wrong with input mon char"<<std::endl;
+  exit(2);
+  return -1;
+}
+
 

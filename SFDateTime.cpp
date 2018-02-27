@@ -9,18 +9,7 @@
 #include "SFDateTime.hpp"
 
 SFDateTime::SFDateTime(SFTimezone *aTimezone): SFDate(), SFTime(){
-  /*
-  time_t rawtime;
-  struct tm * ptm;
-  time ( &rawtime );
-  ptm = gmtime ( &rawtime );
-  day = ptm->tm_wday;
-  month = ptm->tm_mon;
-  year = ptm->tm_year;
-  hour = ptm->tm_hour;
-  min = ptm->tm_min;
-  sec = ptm->tm_sec;
-   */
+
   if(aTimezone == nullptr){
     zone_offset = 0;
     zone = "GMT";
@@ -29,6 +18,7 @@ SFDateTime::SFDateTime(SFTimezone *aTimezone): SFDate(), SFTime(){
     zone_offset = aTimezone->get_offset();
     zone = (const char*)aTimezone;
   }
+  /*
   if(zone_offset != 0){
     if(zone_offset + hour < 0){
       adjustByDays(-1);
@@ -38,6 +28,7 @@ SFDateTime::SFDateTime(SFTimezone *aTimezone): SFDate(), SFTime(){
     }
     adjustByHours(zone_offset);
   }
+   */
 }
 
 
@@ -91,8 +82,12 @@ SFDateTime::SFDateTime(const char* aString, SFTimezone *aTimezone){
   
   if(aTimezone == nullptr){
     zone_offset = 0;
+    zone = aTimezone->get_zone();
   }
-  else zone_offset = aTimezone->get_offset();
+  else{
+    zone_offset = aTimezone->get_offset();
+    zone = aTimezone->get_zone();
+  }
 }
 
 
@@ -109,8 +104,68 @@ SFDateTime::SFDateTime(const SFDate &aDate, const SFTime &aTime, SFTimezone *aTi
 
 
 SFInterval SFDateTime::operator-(const SFDateTime &other) const{
-  SFInterval res;
-  return res;
+  SFTimezone GMT_zone = SFTimezone("GMT");
+  SFDateTime this_date_GMT = SFDateTime(*this).setTimezone(GMT_zone);
+  SFDateTime other_date_GMT = SFDateTime(other).setTimezone(GMT_zone);
+  SFDate this_date = SFDate(this_date_GMT);
+  SFTime this_time = SFTime(this_date_GMT);
+  SFDate other_date = SFDate(other_date_GMT);
+  SFTime other_time = SFTime(other_date_GMT);
+  SFInterval date_interval = this_date - other_date;
+  SFInterval time_interval = this_time - other_time;
+  if(date_interval.isZero()) return time_interval;
+  if(time_interval.isZero()) return date_interval;
+  
+  SFInterval * res;
+  res = new SFInterval();
+  if(time_interval.positive == true){
+    if(date_interval.positive == true){
+      res->positive = true;
+      res->years = date_interval.years;
+      res->months = date_interval.months;
+      res->days = date_interval.days;
+      res->hours = time_interval.hours;
+      res->minutes = time_interval.minutes;
+      res->seconds = time_interval.seconds;
+    }
+    else{
+      res->positive = false;
+      time_interval.flip();
+      this_date.adjustByDays(-1);
+      date_interval = this_date - other_date;
+      res->years = date_interval.years;
+      res->months = date_interval.months;
+      res->days = date_interval.days;
+      res->hours = time_interval.hours;
+      res->minutes = time_interval.minutes;
+      res->seconds = time_interval.seconds;
+    }
+  }
+  else{
+    if(date_interval.positive == false){
+      res->positive = false;
+      res->years = date_interval.years;
+      res->months = date_interval.months;
+      res->days = date_interval.days;
+      res->hours = time_interval.hours;
+      res->minutes = time_interval.minutes;
+      res->seconds = time_interval.seconds;
+    }
+    else{
+      res->positive = true;
+      time_interval.flip();
+      this_date.adjustByDays(1);
+      date_interval = this_date - other_date;
+      res->years = date_interval.years;
+      res->months = date_interval.months;
+      res->days = date_interval.days;
+      res->hours = time_interval.hours;
+      res->minutes = time_interval.minutes;
+      res->seconds = time_interval.seconds;
+    }
+  }
+  
+  return *res;
 } //determine interval between two objects...
 
 
@@ -120,7 +175,7 @@ SFTimezone& SFDateTime::getTimezone(){
 }
 
 SFDateTime& SFDateTime::setTimezone(SFTimezone &aTimezone){
-  int offset = zone_offset - aTimezone.get_offset();
+  int offset = aTimezone.get_offset() - zone_offset;
   adjustByHours(offset);
   zone_offset = aTimezone.get_offset();
   zone = (const char *)aTimezone;
@@ -145,3 +200,48 @@ SFDateTime::operator SFTimezone(){
 }
 
 
+SFDate::SFDate(const SFDateTime &aCopy):SFDate(aCopy.getMonth(), aCopy.getDay(), aCopy.getYear()){
+}
+
+
+SFInterval SFDate::operator-(const SFDateTime &other) const{
+  SFDate temp = SFDate(other);
+  return (*this-temp);
+} //determine interval between two objects...
+
+
+SFTime::SFTime(const SFDateTime &aCopy):SFTime(aCopy.hour, aCopy.min, aCopy.sec){
+}
+
+
+SFInterval SFTime::operator-(const SFDateTime &other) const{
+  SFTime temp = SFTime(other);
+  return (*this-temp);
+}
+
+bool SFDateTime::operator >(SFDateTime & other) const{
+  SFInterval res = (*this)-other;
+  if(res.isZero()) return false;
+  return (res.positive == false);
+}
+
+bool SFDateTime::operator ==(SFDateTime & other) const{
+  SFInterval res = (*this)-other;
+  return res.isZero();
+}
+
+bool SFDateTime::operator !=(SFDateTime & other) const{
+  return !(*this == other);
+}
+
+bool SFDateTime::operator <(SFDateTime & other) const{
+  return (*this != other && !(*this > other));
+}
+
+bool SFDateTime::operator >=(SFDateTime & other) const{
+  return (*this==other || *this > other);
+}
+
+bool SFDateTime::operator <=(SFDateTime & other) const{
+  return (*this == other || *this < other);
+}

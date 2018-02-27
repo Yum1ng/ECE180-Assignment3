@@ -38,7 +38,12 @@ public:
   operator SFTimezone();
   
   std::string toDateTimeString();   //Jan 4, 1961 09:15:00 PST (always this format)
-  
+  bool operator >(SFDateTime & other) const;
+  bool operator ==(SFDateTime & other) const;
+  bool operator !=(SFDateTime & other) const;
+  bool operator <(SFDateTime & other) const;
+  bool operator >=(SFDateTime & other) const;
+  bool operator <=(SFDateTime & other) const;
   //... more members here as necessary...
 private:
   /*

@@ -15,6 +15,7 @@
 class SFInterval {
 public:
   SFInterval();
+  SFInterval(int ayears, int amonths, int adays, int ahours, int aminutes, int aseconds, bool apositive);
   int years;
   int months;
   int days;
@@ -24,5 +25,14 @@ public:
   bool positive;
   operator const char*(); // Returns the interval of the form "Y years, M months, D days, H hours, M minutes and S seconds"
   // Ex. 5 years, 3 months, 2 days, 6 hours, 7 minutes and 10 seconds
+  bool isZero();
+  void flip();
+  bool operator ==(SFInterval & other) const;
+  bool operator !=(SFInterval & other) const;
+  bool operator >(SFInterval & other) const;
+  bool operator >=(SFInterval & other) const;
+  bool operator <(SFInterval & other) const;
+  bool operator <=(SFInterval & other) const;
+  
 };
 #endif /* SFInterval_hpp */

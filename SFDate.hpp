@@ -60,7 +60,10 @@ public:
   //ADD RELATIONAL OPERATORS HERE... >, <, <=, >=, !=, ==
   bool operator >(SFDate & other) const;
   bool operator ==(SFDate & other) const;
+  bool operator !=(SFDate & other) const;
   bool operator <(SFDate & other) const;
+  bool operator >=(SFDate & other) const;
+  bool operator <=(SFDate & other) const;
   //... other members here as necessary...
 protected:
   int day;
@@ -70,6 +73,7 @@ protected:
   int daysInMonth(int month_number) const;
   std::string month_to_abrev(int m);
   bool ahead(const SFDate & other) const;
+  int get_month(char *);
 };
 
 #endif /* SFDate_hpp */
